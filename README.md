@@ -18,8 +18,9 @@ invoke run
 
 ## Testing
 
-- All usecases should have tests
-- Test are run during PR and Merge to `main` builds.
+- All usecases should have tests please
+- `coverage` is required to met agreed limit.
+- Test are automatically run during PR and Merge to `main` builds.
 
 - To run tests locally
 ```
@@ -35,7 +36,14 @@ Merge to `main` triggers an AWS CodePipeline that:
 - Runs `smoketests` against `staging`.
 - If in agreed release window deploys the container to `prod` otherwise waits for manual approval.
 
+
 ## Prodction monitoring and alerting
 
 - AWS CloudWatch Dashboard at: https://
 - Application is configured with Sentry enabled.
+
+
+## Disaster Recovery
+
+- Database is snapshoted nightly and those snapshots are copied to 2 other AWS regions
+- Application can be deployed to a different AWS region with its Database restored from the latest copied snapshot.
