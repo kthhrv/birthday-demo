@@ -11,7 +11,7 @@ requirements; docker and pyenv locally installed
 pip install requirements-dev.txt
 ```
 
-- Start up localdev constainers
+- Start up localdev containers
 ```
 invoke run
 ```
