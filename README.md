@@ -16,9 +16,19 @@ pip install requirements-dev.txt
 invoke run
 ```
 
+## Testing
+
+- All usecases should have tests
+- Test are run during PR and Merge to `main` builds.
+
+- To run tests locally
+```
+invoke tests
+```
+
 ## Deployment
 
-Merge to `main` triggers an AWS Codepipeline that:
+Merge to `main` triggers an AWS CodePipeline that:
 - Runs linting and unittests.
 - Builds a docker container and publishes it to ECR.
 - Deploys the container to a pre-production `staging` environment.
