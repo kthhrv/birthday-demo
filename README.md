@@ -1,4 +1,4 @@
-# Birthday-demo
+# birthday-demo
 
 Simple HTTP API application with two endpoints
 
