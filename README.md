@@ -2,6 +2,16 @@
 
 Simple HTTP API application with two endpoints
 
+## Architectural design choices
+
+There are many ways to skin a cat but 
+
+- Avoid vendor lock-in.
+- Maintainablity over raw performance.
+
+For instance we could use AWS API Gateway but Django Rest Framework is an excellent open source option.
+NodeJs is more performant that Python but in a Python shop it will induce more developer overhead.
+
 ## Localdev
 
 requirements; docker and pyenv locally installed
@@ -34,7 +44,8 @@ Merge to `main` triggers an AWS CodePipeline that:
 - Builds a docker container and publishes it to ECR.
 - Deploys the container to a pre-production `staging` environment.
 - Runs `smoketests` against `staging`.
-- If in agreed release window deploys the container to `prod` otherwise waits for manual approval.
+- If linting, unittests and smoketests pass and we're inside the agreed release window the container is deployed to `prod` otherwise waits for manual approval.
+- If CodePipeline stages fail the team specified in `devops/owner.json` is notified by slack and/or email.
 
 
 ## Prodction monitoring and alerting
