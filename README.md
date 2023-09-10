@@ -1,6 +1,46 @@
 # birthday-demo
 
-Simple HTTP API application with two endpoints
+Simple HTTP API application with two endpoints and CICD
+
+# In Scope
+
+- Simple dockerised python application exposing two HTTP endpoints with unittests
+- System diagram of AWS Infrastructure
+- Build and Cloud deploy scripts
+
+# Out of Scope
+
+- Developer quality of life enhancements
+  - repo setup script (distributed separately)
+    - verify docker and pyenv installed
+    - clone with ticket number included in folder and branch name
+    - create pyenv and install python packages required for dev
+    - run `pre-commit install`
+  - pyinvoke/make for commonly used developer actions
+ 
+- CICD: AWS CodePipeline/CodeBuild
+  - Codebuild for PRs that runs `pre-commit run --all-files` and unittests with coverage
+  - CodePipeline trigger on merge to `main` branch
+  - centralsed channel reporting deployments of all applications.
+  
+- Monitoring: AWS CloudWatch Dashboard
+  - Load Balancer request and error rates plus application response times
+  - AutoscalingGroup CPU load and instance count
+  - Per instance CPU, memory and disk usage
+  
+- Alerting: AWS CloudWatch Alarms
+  - Email and or Messaging of owning team for
+    - Disk, CPU, memory, error rate or response time out of bounds
+    - CICD stage failures
+    
+- Exception Handling: Sentry
+  - Configuration of App to send exceptions to Sentry
+  - Configuration of Sentry to notify teams
+ 
+- Secret/Env Vars Management: Envars
+  - pre-commit checks for unencrypted secrets
+  - I've developed a solution that leans towards developer ease of use over centralisation
+    - https://github.com/timeoutdigital/envars
 
 ## Architectural design choices
 
@@ -10,7 +50,7 @@ There are many ways to skin a cat but generally:
 - Maintainablity over raw performance.
 
 For instance we could use AWS API Gateway but Django Rest Framework is an excellent open source option.
-NodeJs is more performant that Python but in a Python shop it will induce more developer overhead.
+NodeJs can be more performant than Python but in a Python shop it will induce more developer overhead.
 
 ## Localdev
 
