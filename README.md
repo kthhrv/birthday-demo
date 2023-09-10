@@ -43,10 +43,11 @@ Simple HTTP API application with two endpoints and basic CICD
   - Configuration of App to send exceptions to Sentry
   - Configuration of Sentry to notify teams
  
-- Secret/Env Vars Management: Envars
-  - pre-commit checks for unencrypted secrets
+- Secret/Env-variable Management: Envars
+  - `pre-commit` checks for unencrypted secrets
   - I've developed a solution that leans towards developer ease of use over centralisation
     - https://github.com/timeoutdigital/envars
+  - Other solutions are available and approiate ;-)
 
 ## Architectural design choices
 
