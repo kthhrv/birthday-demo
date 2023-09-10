@@ -20,8 +20,8 @@ Simple HTTP API application with two endpoints and CICD
  
 - CICD: AWS CodePipeline/CodeBuild
   - Codebuild for PRs that runs `pre-commit run --all-files` and unittests with coverage
-  - CodePipeline trigger on merge to `main` branch
-  - centralsed channel reporting deployments of all applications.
+  - CodePipeline triggered on merge to `main` branch
+  - Centralsed channel reporting deployments of all applications.
   
 - Monitoring: AWS CloudWatch Dashboard
   - Load Balancer request and error rates plus application response times
