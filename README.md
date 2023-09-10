@@ -19,7 +19,7 @@ invoke run
 ## Testing
 
 - All usecases should have tests please
-- `coverage` is required to met agreed limit.
+- `coverage` is required to meet agreed limit.
 - Test are automatically run during PR and Merge to `main` builds.
 
 - To run tests locally
