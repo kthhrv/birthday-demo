@@ -47,10 +47,9 @@ Simple HTTP API application with two endpoints and CICD
 There are many ways to skin a cat but generally:
 
 - Avoid vendor lock-in.
+  - For instance we could use AWS API Gateway but Django Rest Framework is an excellent open source option.
 - Maintainablity over raw performance.
-
-For instance we could use AWS API Gateway but Django Rest Framework is an excellent open source option.
-NodeJs can be more performant than Python but in a Python shop it will induce more developer overhead.
+  - NodeJs can be more performant than Python but in a Python shop it will induce more developer overhead.
 
 ## Localdev
 
