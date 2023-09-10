@@ -60,6 +60,7 @@ There are many ways to skin a cat but generally:
 
 - My first choice would be Django Rest Framework but this is hardly a 'simple' solution.
 - Considered using python http.server as the simplist possible python implemtation but it doesn't suport PUT http method.
+- Python Flask looks like the next simplest option.
 
 
 ## Localdev
