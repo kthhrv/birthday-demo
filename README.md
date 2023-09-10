@@ -55,6 +55,12 @@ There are many ways to skin a cat but generally:
   - For instance we could use AWS API Gateway but Django Rest Framework is an excellent open source option.
 - Maintainablity over raw performance.
   - NodeJs can be more performant than Python but in a Python shop it will induce more developer overhead.
+ 
+## Code implimentation choices
+
+- My first choice would be Django Rest Framework but this is hardly a 'simple' solution.
+- Considered using python http.server as the simplist possible python implemtation but it doesn't suport PUT http method.
+
 
 ## Localdev
 
