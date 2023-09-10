@@ -4,7 +4,7 @@ Simple HTTP API application with two endpoints
 
 ## Architectural design choices
 
-There are many ways to skin a cat but 
+There are many ways to skin a cat but generally:
 
 - Avoid vendor lock-in.
 - Maintainablity over raw performance.
