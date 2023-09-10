@@ -10,6 +10,11 @@ Simple HTTP API application with two endpoints and CICD
 
 # Out of Scope
 
+- Productionisation of application
+  - Front with Nginx
+  - Use an API framework like Django Rest Framework
+  - Log to CloudWatch Logs
+  
 - Developer quality of life enhancements
   - repo setup script (distributed separately)
     - verify docker and pyenv installed
@@ -62,7 +67,7 @@ pip install requirements-dev.txt
 
 - Start up localdev containers
 ```
-invoke run
+docker-compose -f docker-compose-localdev.yml up
 ```
 
 ## Testing
