@@ -41,6 +41,9 @@ def endpoint(username: str) -> str:
     db = datastore.DB()
 
     if request.method == 'GET':
+        dob = db.get_dob(username)
+        if not dob:
+            return jsonify({'message': f'Hello, {username}! you are new, please create an account'}), 404
         days = utils.get_days_to_next_birthday(db.get_dob(username))
         if days == 0:
             return jsonify({'message': f'Hello, {username}! Happy birthday!'})

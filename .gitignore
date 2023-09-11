@@ -166,4 +166,4 @@ cython_debug/
 *.swp
 
 # App datastore
-birthday_demo/data_file.json
+data_file.json
