@@ -4,15 +4,16 @@ Simple HTTP API application with two endpoints and basic CICD
 
 # In Scope
 
-- Simple dockerised python application exposing two HTTP endpoints with unittests
-- System diagram of AWS Infrastructure
-- Build and Cloud deploy scripts
+- Simple Hello World style Python Flask application with unit and functional tests.
+- System diagram of production AWS Infrastructure.
+- Cloud build and deploy scripts.
 
 # Out of Scope
 
 - Productionisation of application
-  - Front with Nginx
+  - Front with Nginx and WSGI
   - Use an API framework like Django Rest Framework
+  - Use Clustered HA DB
   - Log to CloudWatch Logs
   
 - Developer quality of life enhancements
