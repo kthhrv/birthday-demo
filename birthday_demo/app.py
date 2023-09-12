@@ -15,7 +15,7 @@ def endpoint(username: str) -> tuple[typing.Any, int]:
     '''
     Process a username endpoint request
 
-       Paramerter:
+       Parameter:
           username (str): A string containing only letters
 
        Returns:
