@@ -78,6 +78,11 @@ There are many ways to skin a cat but generally:
 pip install -r requirements.txt
 ```
 
+- Install pre-commit hook
+```
+pre-commit install
+```
+
 - Run app
 ```
 cd birthday_demo
