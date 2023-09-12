@@ -29,7 +29,7 @@ Simple HTTP API application with basic CICD
   - Codebuild for PRs that runs `pre-commit run --all-files` and tests with coverage.
   - CodePipeline triggered on merge to `main` branch.
   - Post `staging` deploy smoke tests before in release window auto deploy to prod.
-  - Centralsed channel reporting deployments of all applications.
+  - Centralised channel reporting deployments of all applications.
   
 - Monitoring: AWS CloudWatch Dashboard
   - Load Balancer request and error rates plus application response times
@@ -49,7 +49,7 @@ Simple HTTP API application with basic CICD
   - `pre-commit` checks for unencrypted secrets
   - I've developed a solution that leans towards developer ease of use over centralisation
     - https://github.com/timeoutdigital/envars
-  - Other solutions are available and approiate ;-)
+  - Other solutions are available and appropriate.
  
 - Disaster Recovery
   - Copy nightly RDS snapshots to another AWS region
@@ -60,13 +60,13 @@ There are many ways to skin a cat but generally:
 
 - Avoid vendor lock-in.
   - For instance we could use AWS API Gateway but Django Rest Framework is an excellent open source option.
-- Maintainablity over raw performance.
+- Maintainability over raw performance.
   - NodeJs can be more performant than Python but in a Python shop it will induce more developer overhead.
  
-## Code implimentation choices
+## Code implementation choices
 
 - My first choice would be Django Rest Framework but this is hardly a 'simple' solution.
-- Considered using python http.server as the simplist possible python implemtation but it doesn't suport PUT http method.
+- Considered using python http.server as the simplest possible python implementation but it doesn't support PUT http method.
 - Python Flask looks like the next simplest option.
 
 
@@ -87,7 +87,7 @@ flask run --debug
 
 - All usecases should have tests.
 - `coverage` is required to meet agreed limit.
-- Test are automatically run during PR and Merge to `main` builds.
+- Tests are automatically run during PR and Merge to `main` builds.
 
 - To run tests locally
 ```
@@ -105,7 +105,7 @@ Merge to `main` triggers an AWS CodePipeline that:
 - If CodePipeline stages fail the team specified in `devops/owner.json` is notified by slack and/or email.
 
 
-## Prodction monitoring and alerting
+## Production monitoring and alerting
 
 - AWS CloudWatch Dashboard at: https://
 - Application is configured with Sentry enabled.
@@ -113,5 +113,5 @@ Merge to `main` triggers an AWS CodePipeline that:
 
 ## Disaster Recovery
 
-- Database is snapshoted nightly and those snapshots are copied to 2 other AWS regions
+- Database is snapshotted nightly and those snapshots are copied to 2 other AWS regions
 - Application can be deployed to a different AWS region with its Database restored from the latest copied snapshot.
