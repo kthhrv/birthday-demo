@@ -6,11 +6,12 @@ Simple HTTP API application with basic CICD
 
 - Simple Hello World style Python Flask application with unit and functional tests.
 - System diagram of production AWS Infrastructure.
-- Cloud build and deploy scripts.
+- Cloud build and deploy script.
 
 # Out of Scope
 
 - Productionisation of application
+  - Dockerise localdev and split requirements.txt 
   - Front with Nginx and WSGI
   - Use an API framework like Django Rest Framework
   - Use Clustered HA DB
