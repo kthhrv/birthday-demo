@@ -28,7 +28,7 @@ Simple HTTP API application with basic CICD
 - CICD: AWS CodePipeline/CodeBuild
   - Codebuild for PRs that runs `pre-commit run --all-files` and tests with coverage.
   - CodePipeline triggered on merge to `main` branch.
-  - Post `staging` deploy smoke tests before in release window auto deploy to prod.
+  - Post `staging` deploy smoke tests followed auto deploy to prod if in release window.
   - Centralised channel reporting deployments of all applications.
   
 - Monitoring: AWS CloudWatch Dashboard
