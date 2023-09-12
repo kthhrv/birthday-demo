@@ -11,7 +11,7 @@ Simple HTTP API application with basic CICD
 # Out of Scope
 
 - Productionisation of application
-  - Dockerise localdev and split requirements.txt 
+  - Dockerise localdev and split requirements.txt to reduce docker image size.
   - Front with Nginx and WSGI
   - Use an API framework like Django Rest Framework
   - Use Clustered HA DB
