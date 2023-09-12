@@ -5,10 +5,10 @@ WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED=1
 
-COPY devops/requirements-docker.txt .
+COPY requirements.txt .
 RUN pip install --upgrade pip && \
     pip install wheel && \
-    pip install -r requirements-docker.txt
+    pip install -r requirements.txt
 
 RUN chown -R nobody:nogroup /app
 

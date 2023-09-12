@@ -1,2 +1,4 @@
+ansible
+flask
 pip-tools
 pytest
