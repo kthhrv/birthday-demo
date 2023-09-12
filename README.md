@@ -16,7 +16,7 @@ Simple HTTP API application with basic CICD
   - Use an API framework like Django Rest Framework
   - Use Clustered HA DB
   - Log to CloudWatch Logs
-  
+
 - Developer quality of life enhancements
   - repo setup script (distributed separately).
     - verify docker and pyenv installed.
@@ -24,33 +24,33 @@ Simple HTTP API application with basic CICD
     - create pyenv and install required python packages.
     - run `pre-commit install`.
   - pyinvoke/make for commonly used developer actions.
- 
+
 - CICD: AWS CodePipeline/CodeBuild
   - Codebuild for PRs that runs `pre-commit run --all-files` and tests with coverage.
   - CodePipeline triggered on merge to `main` branch.
   - Post `staging` deploy smoke tests followed auto deploy to prod if in release window.
   - Centralised channel reporting deployments of all applications.
-  
+
 - Monitoring: AWS CloudWatch Dashboard
   - Load Balancer request and error rates plus application response times
   - AutoscalingGroup CPU load and instance count
   - Per instance CPU, memory and disk usage
-  
+
 - Alerting: AWS CloudWatch Alarms
   - Email and or Messaging of owning team for
     - Disk, CPU, memory, error rate or response time out of bounds
     - CICD stage failures
-    
+
 - Exception Handling: Sentry
   - Configuration of App to send exceptions to Sentry
   - Configuration of Sentry to notify teams
- 
+
 - Secret/Env-variable Management: Envars
   - `pre-commit` checks for unencrypted secrets
   - I've developed a solution that leans towards developer ease of use over centralisation
     - https://github.com/timeoutdigital/envars
   - Other solutions are available and appropriate.
- 
+
 - Disaster Recovery
   - Copy nightly RDS snapshots to another AWS region
 
@@ -62,7 +62,7 @@ There are many ways to skin a cat but generally:
   - For instance we could use AWS API Gateway but Django Rest Framework is an excellent open source option.
 - Maintainability over raw performance.
   - NodeJs can be more performant than Python but in a Python shop it will induce more developer overhead.
- 
+
 ## Code implementation choices
 
 - My first choice would be Django Rest Framework but this is hardly a 'simple' solution.

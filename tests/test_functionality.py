@@ -1,6 +1,5 @@
-from flask import Flask
+from birthday_demo.app import app
 
-from .app import app
 
 def test_create_user():
     response = app.test_client().put('/hello/auser?dateOfBirth=2020-01-01')

@@ -19,7 +19,7 @@
   - set_fact:
       tag: '{{ ecr_repo }}:{{ git_head.stdout }}'
 
-  - name: build docker 
+  - name: build docker
     command: docker build -f ../Dockerfile -t {{ tag }} ../../
 
   - name: docker push

@@ -4,7 +4,7 @@ import datetime
 
 from flask import Flask, jsonify, request
 
-from . import datastore, utils
+from birthday_demo import datastore, utils
 
 app = Flask(__name__)
 

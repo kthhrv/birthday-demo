@@ -1,6 +1,6 @@
 import datetime
 
-from . import utils
+from birthday_demo import utils
 
 today = datetime.date.today()
 next_week = today.replace(day=today.day + 7)
