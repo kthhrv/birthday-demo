@@ -1,1 +1,35 @@
+#!/usr/bin/env ansible-playbook
 
+- name: birthday-demo deploy
+  hosts: localhost
+  connection: local
+  gather_facts: true
+
+  vars:
+    app: birthday-demo
+    ecr_repo: 12345678.dkr.ecr.eu-west-1.amazonaws.com/{{ app }}
+    env: prod
+
+  tasks:
+
+  - name: get SHA
+    command: git rev-parse HEAD
+    register: git_head
+
+  - set_fact:
+      tag: '{{ ecr_repo }}:{{ git_head.stdout }}'
+
+  - name: build docker 
+    command: docker build -f ../Dockerfile -t {{ tag }} ../../
+
+  - name: docker push
+    command: docker push {{ tag }}
+
+  - name: app stack
+    cloudformation:
+      region: '{{ aws_region }}'
+      stack_name: '{{ app }}-{{ env }}'
+      template: ../cloudformation/birthday-demo.yml
+      template_parameters:
+        App: '{{ app }}'
+        DockerTag: '{{ tag }}'
