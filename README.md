@@ -1,6 +1,6 @@
 # birthday-demo
 
-Simple HTTP API application with basic CICD
+Simple HTTP API application with Cloud deploy playbook
 
 # In Scope
 
