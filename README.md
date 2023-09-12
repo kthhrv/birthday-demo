@@ -1,6 +1,6 @@
 # birthday-demo
 
-Simple HTTP API application with two endpoints and basic CICD
+Simple HTTP API application with basic CICD
 
 # In Scope
 
