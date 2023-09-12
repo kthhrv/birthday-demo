@@ -75,7 +75,7 @@ There are many ways to skin a cat but generally:
 
 - Install required python packages
 ```
-pip install requirements.txt
+pip install -r requirements.txt
 ```
 
 - Run app
