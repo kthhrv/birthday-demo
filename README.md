@@ -5,7 +5,7 @@ Simple HTTP API application with basic CICD
 # In Scope
 
 - Simple Hello World style Python Flask application with unit and functional tests.
-- System diagram of production AWS Infrastructure.
+- [System diagram of production AWS Infrastructure.](https://docs.google.com/drawings/d/17UIdFCO2ffNFYe2A_618zLZojwjKfZyZf7514GZK_jM/edit?usp=sharing)
 - Cloud build and deploy script.
 
 # Out of Scope
