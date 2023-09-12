@@ -3,9 +3,21 @@ import os
 
 
 class DB:
+    '''
+    A class providing data storage and retrieval
+
+    Methods
+    -------
+    __init__():
+        Loads the data in `store_filename` and creates it if it doesn't exist
+    create_or_update(username):
+        Creates or updates a user record.
+    get_dob(username):
+        Returns the stored DOB for a user.
+    '''
 
     def __init__(self):
-        self.store_filename = 'data_file.json'
+        self.store_filename = '/tmp/data_file.json'
         if not os.path.isfile(self.store_filename):
             print('creating DB')
             with open(self.store_filename, "w") as store_file:
