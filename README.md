@@ -26,6 +26,7 @@ Simple HTTP API application with basic CICD
   - pyinvoke/make for commonly used developer actions.
 
 - CICD: AWS CodePipeline/CodeBuild
+  - Enable branch projection rules on `main` branch.
   - Codebuild for PRs that runs `pre-commit run --all-files` and tests with coverage.
   - CodePipeline triggered on merge to `main` branch.
   - Post `staging` deploy smoke tests followed auto deploy to prod if in release window.
