@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import datetime
+import typing
 
 from flask import Flask, jsonify, request
 
@@ -10,7 +11,7 @@ app = Flask(__name__)
 
 
 @app.route('/hello/<username>', methods=['GET', 'PUT'])
-def endpoint(username: str) -> str:
+def endpoint(username: str) -> tuple[typing.Any, int]:
     '''
     Process a username endpoint request
 
@@ -44,7 +45,8 @@ def endpoint(username: str) -> str:
         dob = db.get_dob(username)
         if not dob:
             return jsonify({'message': f'Hello, {username}! you are new, please create an account'}), 404
-        days = utils.get_days_to_next_birthday(db.get_dob(username))
+        dob_str = db.get_dob(username)
+        days = utils.get_days_to_next_birthday(dob_str)
         if days == 0:
             return jsonify({'message': f'Hello, {username}! Happy birthday!'})
         else:
@@ -53,3 +55,5 @@ def endpoint(username: str) -> str:
     elif request.method == 'PUT':
         db.create_or_update(username, dob_str)
         return jsonify({}), 204
+
+    return jsonify({'error': 'We should not have got here'}), 500
