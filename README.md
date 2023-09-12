@@ -18,17 +18,17 @@ Simple HTTP API application with basic CICD
   - Log to CloudWatch Logs
   
 - Developer quality of life enhancements
-  - repo setup script (distributed separately)
-    - verify docker and pyenv installed
-    - clone with ticket number included in folder and branch name
-    - create pyenv and install python packages required for dev
-    - run `pre-commit install`
-  - pyinvoke/make for commonly used developer actions
+  - repo setup script (distributed separately).
+    - verify docker and pyenv installed.
+    - clone with ticket number included in the folder and branch names.
+    - create pyenv and install required python packages.
+    - run `pre-commit install`.
+  - pyinvoke/make for commonly used developer actions.
  
 - CICD: AWS CodePipeline/CodeBuild
-  - Codebuild for PRs that runs `pre-commit run --all-files` and unittests with coverage
-  - CodePipeline triggered on merge to `main` branch
-  - Post `staging` deploy smoke tests before in release window auto deploy to prod
+  - Codebuild for PRs that runs `pre-commit run --all-files` and tests with coverage.
+  - CodePipeline triggered on merge to `main` branch.
+  - Post `staging` deploy smoke tests before in release window auto deploy to prod.
   - Centralsed channel reporting deployments of all applications.
   
 - Monitoring: AWS CloudWatch Dashboard
@@ -50,6 +50,9 @@ Simple HTTP API application with basic CICD
   - I've developed a solution that leans towards developer ease of use over centralisation
     - https://github.com/timeoutdigital/envars
   - Other solutions are available and approiate ;-)
+ 
+- Disaster Recovery
+  - Copy nightly RDS snapshots to another AWS region
 
 ## Architectural design choices
 
@@ -69,27 +72,26 @@ There are many ways to skin a cat but generally:
 
 ## Localdev
 
-requirements; docker and pyenv locally installed
-
-- Install python packages required for dev
+- Install required python packages
 ```
-pip install requirements-dev.txt
+pip install requirements.txt
 ```
 
-- Start up localdev containers
+- Run app
 ```
-docker-compose -f docker-compose-localdev.yml up
+cd birthday_demo
+flask run --debug
 ```
 
 ## Testing
 
-- All usecases should have tests please
+- All usecases should have tests.
 - `coverage` is required to meet agreed limit.
 - Test are automatically run during PR and Merge to `main` builds.
 
 - To run tests locally
 ```
-invoke tests
+pytest
 ```
 
 ## Deployment
