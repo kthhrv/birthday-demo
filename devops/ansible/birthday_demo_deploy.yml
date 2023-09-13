@@ -15,6 +15,15 @@
     assert:
       that: env is defined
 
+  - name: deploy cluster
+    cloudformation:
+      region: '{{ aws_region }}'
+      stack_name: ecs-cluster-{{ env }}
+      template: ../cloudformation/ecs-cluster.yml
+      template_parameters:
+        Stage: '{{ env }}'
+      termination_protection: true
+
   - name: get SHA
     command: git rev-parse HEAD
     register: git_head
