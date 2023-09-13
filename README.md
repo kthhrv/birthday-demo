@@ -5,6 +5,8 @@ Simple HTTP API application with Cloud deploy playbook
 # In Scope
 
 - Simple Hello World style Python Flask application with unit and functional tests.
+  - I've opted not to use a Database to reduce the amount of time required to complete this excerise.
+    - ie the playbooks, cloudformation, localdev enhancements to support a Database.
 - [System diagram of production AWS Infrastructure.](https://docs.google.com/drawings/d/17UIdFCO2ffNFYe2A_618zLZojwjKfZyZf7514GZK_jM/edit?usp=sharing)
 - Cloud build and deploy script.
 
@@ -16,6 +18,7 @@ Simple HTTP API application with Cloud deploy playbook
   - Use an API framework like Django Rest Framework
   - Use Clustered HA DB
   - Log to CloudWatch Logs
+  - add /healthz on an internal only port
 
 - Developer quality of life enhancements
   - repo setup script (distributed separately).
@@ -29,7 +32,7 @@ Simple HTTP API application with Cloud deploy playbook
   - Enable branch projection rules on `main` branch.
   - Codebuild for PRs that runs `pre-commit run --all-files` and tests with coverage.
   - CodePipeline triggered on merge to `main` branch.
-  - Post `staging` deploy smoke tests followed auto deploy to prod if in release window.
+  - Post `staging` deploy smoke tests followed by auto deploy to prod if in release window.
   - Centralised channel reporting deployments of all applications.
 
 - Monitoring: AWS CloudWatch Dashboard
@@ -40,6 +43,7 @@ Simple HTTP API application with Cloud deploy playbook
 - Alerting: AWS CloudWatch Alarms
   - Email and or Messaging of owning team for
     - Disk, CPU, memory, error rate or response time out of bounds
+    - Instance healthcheck failures
     - CICD stage failures
 
 - Exception Handling: Sentry
