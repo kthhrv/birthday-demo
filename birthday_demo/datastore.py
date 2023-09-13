@@ -20,7 +20,7 @@ class DB:
 
     def __init__(self):
         """Load data or create empty store."""
-        self.store_filename = '/tmp/data_file.json'
+        self.store_filename = os.environ.get('DATASTORE_FILE_PATH', '/tmp/data_file.json')
         if not os.path.isfile(self.store_filename):
             with open(self.store_filename, "w") as store_file:
                 store_file.write('{}')

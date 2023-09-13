@@ -10,7 +10,15 @@ Parameters:
   DockerTag:
     Type: String
 
+  Env:
+    Type: String
+
 Resources:
+
+  EfsVolume:
+    Type: AWS::EFS::FileSystem
+    Properties:
+      PerformanceMode: generalPurpose
 
   IAMRole:
     Type: AWS::IAM::Role
@@ -27,18 +35,41 @@ Resources:
           Action:
           - sts:AssumeRole
 
+  IAMRoleAllowLogging:
+    Type: AWS::IAM::Policy
+    Properties:
+      Roles:
+      - !Ref IAMRole
+      PolicyName: AllowLogging
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+        - Effect: Allow
+          Action:
+          - logs:CreateLogStream
+          - logs:DescribeLogGroups
+          - logs:DescribeLogStreams
+          - logs:PutLogEvents
+          Resource:
+          - !GetAtt LogGroup.Arn
+
   IAMInstanceProfile:
     Type: AWS::IAM::InstanceProfile
     Properties:
       Roles:
       - !Ref IAMRole
 
+  LogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub /apps/${App}/${Stage}
+
   EcsService:
     Type: AWS::ECS::Service
-    DependsOn: LoadBalancerHTTPS
+    DependsOn: LoadBalancer
     Properties:
       Cluster:
-        Fn::ImportValue: !Sub ecs-cluster-${Stage}-ClusterName
+        Fn::ImportValue: !Sub ecs-cluster-${Env}-ClusterName
       DeploymentConfiguration:
         DeploymentCircuitBreaker:
           Enable: true
@@ -50,16 +81,16 @@ Resources:
       LaunchType: FARGATE
       LoadBalancers:
       - ContainerName: !Sub ${App}-container
-        ContainerPort: 4000
+        ContainerPort: 5000
         TargetGroupArn: !Ref LoadBalancerAppTargetGroup
       NetworkConfiguration:
         AwsvpcConfiguration:
           SecurityGroups:
           - !Ref AppSecurityGroup
           Subnets:
-          - !ImportValue VPC-PrivateASubnet
-          - !ImportValue VPC-PrivateBSubnet
-          - !ImportValue VPC-PrivateCSubnet
+          - !ImportValue vpc-PrivateSubnet-A
+          - !ImportValue vpc-PrivateSubnet-B
+          - !ImportValue vpc-PrivateSubnet-C
       TaskDefinition: !Ref EcsServiceTaskDefinition
 
   EcsServiceTaskDefinition:
@@ -68,31 +99,30 @@ Resources:
       ContainerDefinitions:
       - Name: !Sub ${App}-container
         Environment:
-        - Name: APP
-          Value: !Ref App
-        - Name: AWS_REGION
-          Value: !Sub ${AWS::Region}
-        - Name: RELEASE
-          Value: !Ref Release
-        - Name: STAGE
-          Value: !Ref Stage
-        - Name: TIMESTAMP
-          Value: !Ref TimeStamp
+        - Name: DATASTORE_FILE_PATH
+          Value: /mnt/datastore/data.json
         Essential: true
         Image: !Ref DockerTag
         LogConfiguration:
           LogDriver: awslogs
           Options:
-            awslogs-group: !Ref DockerLogGroup
+            awslogs-group: !Ref LogGroup
             awslogs-stream-prefix: !Sub ${App}-container
             awslogs-region: !Ref AWS::Region
+        MountPoints:
+        - SourceVolume: DataStoreEfs
+          ContainerPath: /mnt/datastore
         PortMappings:
-        - ContainerPort: 4000
-          HostPort: 4000
+        - ContainerPort: 5000
+          HostPort: 5000
           Protocol: tcp
+      Volumes:
+      - Name: DataStoreEfs
+        EFSVolumeConfiguration:
+          FilesystemId: !Ref EfsVolume
       Cpu: '256'
       ExecutionRoleArn:
-        Fn::ImportValue: !Sub ecs-cluster-${Stage}-ExecutionRoleArn
+        Fn::ImportValue: !Sub ecs-cluster-${Env}-ExecutionRoleArn
       Memory: '512'
       NetworkMode: awsvpc
       RequiresCompatibilities:
@@ -134,7 +164,7 @@ Resources:
       ResourceId: !Join
       - '/'
       - - service
-        - Fn::ImportValue: !Sub ecs-cluster-${Stage}-ClusterName
+        - Fn::ImportValue: !Sub ecs-cluster-${Env}-ClusterName
         - !GetAtt EcsService.Name
       ScalableDimension: ecs:service:DesiredCount
       ServiceNamespace: ecs
@@ -157,7 +187,7 @@ Resources:
   AppSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      VpcId: !ImportValue VPC-VPCID
+      VpcId: !ImportValue vpc-VpcId
       GroupDescription: Open up HTTP access from load balancer
       SecurityGroupIngress:
       - SourceSecurityGroupId: !GetAtt LoadBalancerSecurityGroup.GroupId
@@ -168,7 +198,7 @@ Resources:
   LoadBalancerSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      VpcId: !ImportValue VPC-VPCID
+      VpcId: !ImportValue vpc-VpcId
       GroupDescription: load balancer
 
   LoadBalancer:
@@ -178,9 +208,29 @@ Resources:
       SecurityGroups:
       - !GetAtt LoadBalancerSecurityGroup.GroupId
       Subnets:
-      - subnet-0a41157c
-      - subnet-23gdsg43
-      - subnet-0drfgh35
+      - !ImportValue vpc-PublicSubnet-A
+      - !ImportValue vpc-PublicSubnet-B
+      - !ImportValue vpc-PublicSubnet-C
+
+  LoadBalancerAppTargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      HealthCheckIntervalSeconds: 30
+      HealthCheckPath: /healthz
+      HealthCheckPort: 5000
+      HealthCheckProtocol: HTTP
+      HealthCheckTimeoutSeconds: 10
+      HealthyThresholdCount: 2
+      UnhealthyThresholdCount: 4
+      Port: 5000
+      Protocol: HTTP
+      Matcher:
+        HttpCode: 404
+      TargetGroupAttributes:
+      - Key: deregistration_delay.timeout_seconds
+        Value: 60
+      TargetType: ip
+      VpcId: !ImportValue vpc-VpcId
 
   LoadBalancerListener:
     Type: AWS::ElasticLoadBalancingV2::Listener
@@ -191,3 +241,13 @@ Resources:
       DefaultActions:
       - Type: forward
         TargetGroupArn: !Ref LoadBalancerAppTargetGroup
+
+  DNSRecordA:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: MyHostedZoneId
+      Name: birthday.mydomain
+      Type: A
+      AliasTarget:
+        DNSName: !Sub dualstack.${LoadBalancer.DNSName}
+        HostedZoneId: !GetAtt LoadBalancer.CanonicalHostedZoneID

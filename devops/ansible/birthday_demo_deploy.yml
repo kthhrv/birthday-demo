@@ -8,9 +8,12 @@
   vars:
     app: birthday-demo
     ecr_repo: 12345678.dkr.ecr.eu-west-1.amazonaws.com/{{ app }}
-    env: prod
 
   tasks:
+
+  - name: "'env' is required"
+    assert:
+      that: env is defined
 
   - name: get SHA
     command: git rev-parse HEAD
@@ -33,3 +36,4 @@
       template_parameters:
         App: '{{ app }}'
         DockerTag: '{{ tag }}'
+        Env: '{{ env }}'
